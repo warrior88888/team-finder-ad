@@ -1,0 +1,140 @@
+[project]
+name = "team-finder-ad"
+version = "0.1.0"
+description = "Network for developers"
+readme = "readme.md"
+requires-python = ">=3.13.9"
+dependencies = [
+    "django==5.2.9",
+    "django-health-check==3.21.0",
+    "django-jazzmin==3.0.1",
+    "gunicorn==23.0.0",
+    "pillow==11.3.0",
+    "psycopg2-binary==2.9.10",
+    "pydantic==2.12.5",
+    "pydantic-settings==2.7.0",
+    "redis==7.1.1",
+]
+
+[dependency-groups]
+dev = [
+    "basedpyright",
+    "django-debug-toolbar==6.1.0",
+    "django-stubs==5.2.9",
+    "factory-boy>=3.3.3",
+    "pyright==1.1.408",
+    "pytest-django==4.11.1",
+    "pytest-env==1.5.0",
+    "pytest-factoryboy==2.8.1",
+    "ruff==0.15.2",
+]
+
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.test_settings"
+testpaths = ["tests"]
+addopts = "-v"
+filterwarnings = [
+    "ignore::django.utils.deprecation.RemovedInDjango60Warning",
+]
+
+[tool.pytest_env]
+TF__REDIS__DEFAULT_DB = 15
+TF__REDIS__PASSWORD = "no"
+
+[tool.pyright]
+reportIncompatibleMethodOverride = false
+reportIncompatibleVariableOverride = false
+
+[tool.django-stubs]
+django_settings_module = "team_finder.settings"
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+    "migrations",
+]
+
+# Same as Black.
+line-length = 88
+indent-width = 4
+
+# Assume Python 3.13
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "F",
+    "E",
+    "I",
+    "N",
+    "UP",
+    "RUF",
+    "B",
+    "C4",
+    "ISC",
+    "PIE",
+    "PT",
+    "PTH",
+    "SIM",
+    "TID",
+    "DJ"
+]
+ignore = [
+    "RUF001",
+    "RUF002",
+    "RUF012",
+    "DJ001"
+]
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+
+docstring-code-format = true
+docstring-code-line-length = 88
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

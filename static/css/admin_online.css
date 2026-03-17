@@ -1,0 +1,31 @@
+.online-dot {
+    color: #2ecc71;
+    animation: blink 1.2s infinite;
+}
+
+.offline-dot {
+    color: #7f8c8d;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+}
+
+.metrics-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.metric-card {
+    background: #2c3b4f;
+    border: 1px solid #3d5166;
+    border-radius: 6px;
+    padding: 10px 18px;
+    color: #e8eaf0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}

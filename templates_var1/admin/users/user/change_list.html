@@ -1,0 +1,16 @@
+{% extends "admin/change_list.html" %}
+
+{% block content %}
+<div class="metrics-bar">
+    <div class="metric-card">
+        <span class="online-dot">●</span>
+        Пользователей онлайн: <strong>{{ online_users_count }}</strong>
+    </div>
+    <div class="metric-card">
+        <span class="offline-dot">●</span>
+        Анонимных визиторов: <strong>{{ anonymous_visitors_count }}</strong>
+    </div>
+</div>
+
+{{ block.super }}
+{% endblock %}

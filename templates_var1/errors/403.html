@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}403 — Доступ запрещен | TeamFinder{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/error.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="container error-container">
+    <div class="error-code">403</div>
+
+    <h1 class="error-title">Доступ ограничен</h1>
+
+    <p class="error-text">
+        У вас недостаточно прав для просмотра этой страницы.
+        Если вы считаете, что это ошибка, обратитесь к администратору или
+        попробуйте войти под другим аккаунтом.
+    </p>
+
+    <div class="error-actions">
+        <a href="{% url 'projects:projects_list' %}" class="black-button">
+            На главную страницу
+        </a>
+    </div>
+</main>
+{% endblock %}

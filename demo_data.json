@@ -1,0 +1,625 @@
+[
+  {
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+      "name": "Project moderators",
+      "permissions": [21, 22, 23, 24]
+    }
+  },
+
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": true,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2025-12-25T12:00:00Z",
+      "email": "admin@example.com",
+      "name": "Admin",
+      "surname": "Root",
+      "phone": "+79990000001",
+      "github_url": "https://github.com/admin",
+      "about": "Суперпользователь, полный доступ.",
+      "favorites": [1, 2, 4, 7, 11],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2025-12-25T12:10:00Z",
+      "email": "moderator1@example.com",
+      "name": "Мария",
+      "surname": "Модератор",
+      "phone": "+79990000002",
+      "github_url": "https://github.com/moderator1",
+      "about": "Модератор проектов.",
+      "favorites": [2, 3, 5],
+      "groups": [1],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-25T12:20:00Z",
+      "email": "owner1@example.com",
+      "name": "Иван",
+      "surname": "Автор",
+      "phone": "+79990000003",
+      "github_url": "https://github.com/owner1",
+      "about": "Создаю проекты и собираю команды.",
+      "favorites": [1, 2, 4],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-25T12:25:00Z",
+      "email": "owner2@example.com",
+      "name": "Анна",
+      "surname": "Автор",
+      "phone": "+79990000004",
+      "github_url": "https://github.com/owner2",
+      "about": "Хочу собрать команду под pet-project.",
+      "favorites": [5, 8, 9, 10],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-25T12:30:00Z",
+      "email": "member1@example.com",
+      "name": "Пётр",
+      "surname": "Участник",
+      "phone": "+79990000005",
+      "github_url": "https://github.com/member1",
+      "about": "Ищу проект по Django.",
+      "favorites": [1, 2, 11, 14],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 6,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-25T12:31:00Z",
+      "email": "member2@example.com",
+      "name": "Светлана",
+      "surname": "Участник",
+      "phone": "+79990000006",
+      "github_url": "https://github.com/member2",
+      "about": "Хочу в проект с фронтендом.",
+      "favorites": [2, 3, 10, 12],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 7,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-25T12:32:00Z",
+      "email": "member3@example.com",
+      "name": "Олег",
+      "surname": "Участник",
+      "phone": "+79990000007",
+      "github_url": "https://github.com/member3",
+      "about": "Хочу попробовать себя в роли тестировщика.",
+      "favorites": [3, 9, 13],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 8,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": false,
+      "date_joined": "2025-12-25T12:33:00Z",
+      "email": "blocked@example.com",
+      "name": "Заблок",
+      "surname": "Пользователь",
+      "phone": "+79990000008",
+      "github_url": "https://github.com/blocked",
+      "about": "Этот пользователь заблокирован (is_active=False).",
+      "favorites": [],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+
+  {
+    "model": "users.user",
+    "pk": 9,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2025-12-25T12:35:00Z",
+      "email": "moderator2@example.com",
+      "name": "Денис",
+      "surname": "Модератор",
+      "phone": "+79990000009",
+      "github_url": "https://github.com/moderator2",
+      "about": "Второй модератор проектов.",
+      "favorites": [2, 7, 11],
+      "groups": [1],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 10,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-25T12:40:00Z",
+      "email": "owner3@example.com",
+      "name": "Алексей",
+      "surname": "Автор",
+      "phone": "+79990000010",
+      "github_url": "https://github.com/owner3",
+      "about": "Запускаю несколько проектов параллельно.",
+      "favorites": [2, 5, 7],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 11,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-25T12:45:00Z",
+      "email": "owner4@example.com",
+      "name": "Екатерина",
+      "surname": "Автор",
+      "phone": "+79990000011",
+      "github_url": "https://github.com/owner4",
+      "about": "Люблю образовательные проекты и product thinking.",
+      "favorites": [1, 4, 8, 10],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 12,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-25T12:50:00Z",
+      "email": "member4@example.com",
+      "name": "Никита",
+      "surname": "Участник",
+      "phone": "+79990000012",
+      "github_url": "https://github.com/member4",
+      "about": "Хочу в проект с ботами и API.",
+      "favorites": [7, 11, 14],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 13,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-25T12:52:00Z",
+      "email": "member5@example.com",
+      "name": "Арина",
+      "surname": "Участник",
+      "phone": "+79990000013",
+      "github_url": "https://github.com/member5",
+      "about": "Ищу проект по аналитике и визуализации.",
+      "favorites": [5, 8, 13],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 14,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-25T12:55:00Z",
+      "email": "member6@example.com",
+      "name": "Илья",
+      "surname": "Участник",
+      "phone": "+79990000014",
+      "github_url": "https://github.com/member6",
+      "about": "DevOps/CI/CD, люблю автоматизацию.",
+      "favorites": [6, 8, 13],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 15,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-25T12:57:00Z",
+      "email": "member7@example.com",
+      "name": "Глеб",
+      "surname": "Участник",
+      "phone": "+79990000015",
+      "github_url": "https://github.com/member7",
+      "about": "Интересуюсь ML и MLOps.",
+      "favorites": [7, 13, 15],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 16,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-25T13:00:00Z",
+      "email": "member8@example.com",
+      "name": "Вероника",
+      "surname": "Участник",
+      "phone": "+79990000016",
+      "github_url": "https://github.com/member8",
+      "about": "Хочу в продуктовую команду, могу быть аналитиком.",
+      "favorites": [9, 14, 10],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 17,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-25T13:02:00Z",
+      "email": "member9@example.com",
+      "name": "София",
+      "surname": "Участник",
+      "phone": "+79990000017",
+      "github_url": "https://github.com/member9",
+      "about": "Дизайнер, интересуюсь дизайн-системами.",
+      "favorites": [2, 12, 10],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 18,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$devsalt$ePEOFpcGeUkTkQushAFXPOVAfVDnJKfVvLGMy27GBdY=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-12-25T13:05:00Z",
+      "email": "member10@example.com",
+      "name": "Дмитрий",
+      "surname": "Участник",
+      "phone": "+79990000018",
+      "github_url": "https://github.com/member10",
+      "about": "iOS/SwiftUI, люблю мобильную разработку.",
+      "favorites": [4, 15, 7],
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+
+  {
+    "model": "projects.project",
+    "pk": 1,
+    "fields": {
+      "name": "TeamFinder: backend improvements",
+      "description": "Нужны Django-разработчики для улучшения бэкенда.",
+      "owner": 3,
+      "created_at": "2025-12-25T13:00:00Z",
+      "github_url": "https://github.com/example/teamfinder-backend",
+      "status": "open",
+      "participants": [3, 5]
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 2,
+    "fields": {
+      "name": "UI kit for TeamFinder",
+      "description": "Собираем UI-kit и дизайн-систему. Нужны фронтендеры.",
+      "owner": 4,
+      "created_at": "2025-12-25T13:10:00Z",
+      "github_url": "https://github.com/example/teamfinder-ui",
+      "status": "open",
+      "participants": [4, 6, 7]
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 3,
+    "fields": {
+      "name": "QA automation for pet projects",
+      "description": "Ищем QA для автотестов и процессов CI.",
+      "owner": 3,
+      "created_at": "2025-12-25T13:20:00Z",
+      "github_url": "https://github.com/example/teamfinder-qa",
+      "status": "closed",
+      "participants": [3, 7]
+    }
+  },
+
+  {
+    "model": "projects.project",
+    "pk": 4,
+    "fields": {
+      "name": "Mobile client MVP",
+      "description": "Нужен Flutter-разработчик и дизайнер.",
+      "owner": 4,
+      "created_at": "2025-12-25T13:30:00Z",
+      "github_url": "https://github.com/example/teamfinder-mobile",
+      "status": "open",
+      "participants": [4, 5, 6]
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 5,
+    "fields": {
+      "name": "Data analytics dashboard",
+      "description": "Делаем дашборд аналитики. Нужны data engineer и frontend.",
+      "owner": 3,
+      "created_at": "2025-12-25T13:40:00Z",
+      "github_url": "https://github.com/example/teamfinder-analytics",
+      "status": "open",
+      "participants": [3, 6]
+    }
+  },
+
+  {
+    "model": "projects.project",
+    "pk": 6,
+    "fields": {
+      "name": "Hackathon: fast prototype",
+      "description": "Нужно быстро собрать прототип, нужны fullstack и PM.",
+      "owner": 4,
+      "created_at": "2025-12-25T13:50:00Z",
+      "github_url": "https://github.com/example/teamfinder-hackathon",
+      "status": "closed",
+      "participants": [4, 5, 7]
+    }
+  },
+
+  {
+    "model": "projects.project",
+    "pk": 7,
+    "fields": {
+      "name": "AI mentor bot",
+      "description": "Делаем телеграм-бота, который помогает новичкам учиться. Нужны backend и ML.",
+      "owner": 10,
+      "created_at": "2025-12-25T14:00:00Z",
+      "github_url": "https://github.com/example/ai-mentor-bot",
+      "status": "open",
+      "participants": [10, 12, 15, 18]
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 8,
+    "fields": {
+      "name": "DevOps templates & CI",
+      "description": "Пишем шаблоны CI/CD, docker-compose, Makefile. Нужны DevOps и Python.",
+      "owner": 11,
+      "created_at": "2025-12-25T14:10:00Z",
+      "github_url": "https://github.com/example/devops-templates",
+      "status": "open",
+      "participants": [11, 14, 13]
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 9,
+    "fields": {
+      "name": "Game jam: weekend prototype",
+      "description": "Ищем разработчиков и дизайнера для прототипа игры за выходные.",
+      "owner": 3,
+      "created_at": "2025-12-25T14:20:00Z",
+      "github_url": "https://github.com/example/game-jam",
+      "status": "closed",
+      "participants": [3, 15, 16, 17]
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 10,
+    "fields": {
+      "name": "Open-source docs sprint",
+      "description": "Готовим документацию, гайды и примеры. Нужны техписатели и разработчики.",
+      "owner": 4,
+      "created_at": "2025-12-25T14:30:00Z",
+      "github_url": "https://github.com/example/docs-sprint",
+      "status": "open",
+      "participants": [4, 6, 16, 17]
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 11,
+    "fields": {
+      "name": "Telegram bot marketplace",
+      "description": "Маркетплейс телеграм-ботов: каталог, витрина, админка. Нужны fullstack.",
+      "owner": 10,
+      "created_at": "2025-12-25T14:40:00Z",
+      "github_url": "https://github.com/example/tg-bot-marketplace",
+      "status": "open",
+      "participants": [10, 5, 6, 12]
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 12,
+    "fields": {
+      "name": "Design system audit",
+      "description": "Аудит дизайн-системы и компонентов. Нужны дизайнер и фронтендер.",
+      "owner": 11,
+      "created_at": "2025-12-25T14:50:00Z",
+      "github_url": "https://github.com/example/design-system-audit",
+      "status": "closed",
+      "participants": [11, 6, 17]
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 13,
+    "fields": {
+      "name": "MLOps pipeline",
+      "description": "Пайплайн обучения/деплоя моделей и мониторинг. Нужны ML и DevOps.",
+      "owner": 3,
+      "created_at": "2025-12-25T15:00:00Z",
+      "github_url": "https://github.com/example/mlops-pipeline",
+      "status": "open",
+      "participants": [3, 14, 15, 13]
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 14,
+    "fields": {
+      "name": "Educational platform MVP",
+      "description": "Образовательная платформа: курсы, трекинг прогресса, роли. Нужны backend и аналитик.",
+      "owner": 4,
+      "created_at": "2025-12-25T15:10:00Z",
+      "github_url": "https://github.com/example/edu-platform",
+      "status": "open",
+      "participants": [4, 12, 13, 16]
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 15,
+    "fields": {
+      "name": "iOS SwiftUI client",
+      "description": "Нужен iOS-разработчик для SwiftUI-клиента и интеграции с API.",
+      "owner": 10,
+      "created_at": "2025-12-25T15:20:00Z",
+      "github_url": "https://github.com/example/ios-swiftui-client",
+      "status": "open",
+      "participants": [10, 18]
+    }
+  }
+]

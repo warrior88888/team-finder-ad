@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}429 — Слишком много запросов | TeamFinder{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/error.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="container error-container">
+    <div class="error-code">429</div>
+
+    <h1 class="error-title">Вы заходите слишком часто</h1>
+
+    <p class="error-text">
+        Система зафиксировала подозрительно много запросов с вашего устройства.
+        Пожалуйста, подождите немного и обновите страницу.
+        Это нужно для защиты данных наших пользователей.
+    </p>
+</main>
+{% endblock %}

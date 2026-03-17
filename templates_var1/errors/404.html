@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}404 — Страница не найдена | TeamFinder{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/error.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="container error-container">
+    <div class="error-code">404</div>
+
+    <h1 class="error-title">Страница не найдена</h1>
+
+    <p class="error-text">
+        Возможно, проект был удален или ссылка ведет на несуществующего пользователя.
+        Попробуйте начать поиск заново.
+    </p>
+
+    <div class="error-actions">
+        <a href="{% url 'projects:projects_list' %}" class="black-button">
+            К списку проектов
+        </a>
+        <a href="{% url 'users:user_list' %}" class="secondary-button">
+            Найти участников
+        </a>
+    </div>
+</main>
+{% endblock %}

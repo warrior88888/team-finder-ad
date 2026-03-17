@@ -1,0 +1,83 @@
+services:
+  postgres:
+    image: postgres:17.8-alpine3.23
+    container_name: postgres_container
+    ports:
+      - "5433:5432"
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${TF__POSTGRES__USER}
+      POSTGRES_PASSWORD: ${TF__POSTGRES__PASSWORD}
+      POSTGRES_DB: ${TF__POSTGRES__DB}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    stop_grace_period: 30s
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis_container
+    ports:
+      - "6380:6379"
+    env_file:
+      - .env
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -p 6379 ping | grep PONG"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+
+  django_app:
+    build: .
+    container_name: django_app
+    env_file:
+      - .env
+    environment:
+      TF__DJANGO__DEBUG: "False"
+      TF__DJANGO__DOMAIN: "localhost"
+      TF__POSTGRES__PORT: "5432"
+      TF__POSTGRES__HOST: "postgres"
+      TF__REDIS__PASSWORD: "no"
+      TF__REDIS__HOST: "redis"
+      TF__REDIS__PORT: "6379"
+    volumes:
+      - static_volume:/app/collected_static/
+      - media_volume:/app/media/
+      - /var/log/django:/var/log/django
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:stable-alpine3.23-slim
+    container_name: nginx_container
+    ports:
+      - "8000:80"
+    volumes:
+      - ./nginx/nginx.dev.conf:/etc/nginx/conf.d/default.conf
+      - static_volume:/collected_static:ro
+      - media_volume:/media:ro
+    depends_on:
+      django_app:
+        condition: service_healthy
+    restart: unless-stopped
+
+
+volumes:
+  pg_data:
+  static_volume:
+  media_volume:
+  redis_data:
