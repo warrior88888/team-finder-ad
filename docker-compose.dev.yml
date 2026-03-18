@@ -50,6 +50,7 @@ services:
       TF__REDIS__PASSWORD: "no"
       TF__REDIS__HOST: "redis"
       TF__REDIS__PORT: "6379"
+      TF__TASK__VERSION: 1
     volumes:
       - static_volume:/app/collected_static/
       - media_volume:/app/media/
