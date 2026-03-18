@@ -41,6 +41,8 @@ filterwarnings = [
 [tool.pytest_env]
 TF__REDIS__DEFAULT_DB = 15
 TF__REDIS__PASSWORD = "no"
+TF__DJANGO__SECRET_KEY = "test-secret-key123"
+TF__POSTGRES__PASSWORD = "test-secret-pass123"
 
 [tool.pyright]
 reportIncompatibleMethodOverride = false
