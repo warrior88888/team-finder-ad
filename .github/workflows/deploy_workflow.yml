@@ -1,0 +1,162 @@
+name: Main TeamFinder Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create .env for tests
+        run: |
+          cat > .env << 'EOF'
+          TF__DJANGO__SECRET_KEY=test-secret-key123@
+          TF__DJANGO__DOMAIN=localhost
+          TF__DJANGO__HEALTHCHECK_PATH=ht/
+          TF__DJANGO__ADMIN_PATH=admin/
+          TF__LOG__FORMAT=[%(asctime)s.%(msecs)03d] %(module)10s:%(lineno)-3d %(levelname)-7s - %(message)s
+          TF__LOG__LEVEL=INFO
+          TF__LOG__DB_LEVEL=WARNING
+          TF__LOG__DJANGO_LEVEL=INFO
+          TF__POSTGRES__DB=teamfinder
+          TF__POSTGRES__USER=postgres
+          TF__POSTGRES__PASSWORD=postgrs
+          TF__POSTGRES__PORT=5432
+          TF__REDIS__PASSWORD=no
+          TF__REDIS__PORT=6379
+          TF__REDIS__DEFAULT_DB=0
+          TF__TASK__VERSION=1
+          EOF
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-caching: true
+          cache-dependency-glob: "uv.lock"
+      - name: Install dependencies
+        run: uv sync --frozen
+      - name: Ruff
+        run: uv run ruff check .
+      - name: Pyright
+        run: uv run pyright
+      - name: Pytest
+        run: uv run pytest
+
+  build_and_push:
+    name: Push Django app image to DockerHub
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: warrior88888/team-finder-ad:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_push
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Copy configs to VPS
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          port: ${{ secrets.PORT }}
+          source: "docker-compose.prod.yml,nginx/nginx.prod.conf"
+          target: "/etc/team-finder"
+
+      - name: Create .env on VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cat > /etc/team-finder/.env << 'EOF'
+            TF__DJANGO__SECRET_KEY=${{ secrets.TF__DJANGO__SECRET_KEY }}
+            TF__DJANGO__DOMAIN=${{ secrets.TF__DJANGO__DOMAIN }}
+            TF__DJANGO__HEALTHCHECK_PATH=${{ secrets.TF__DJANGO__HEALTHCHECK_PATH }}
+            TF__DJANGO__ADMIN_PATH=${{ secrets.TF__DJANGO__ADMIN_PATH }}
+            TF__LOG__FORMAT=${{ secrets.TF__LOG__FORMAT }}
+            TF__LOG__LEVEL=${{ secrets.TF__LOG__LEVEL }}
+            TF__LOG__DB_LEVEL=${{ secrets.TF__LOG__DB_LEVEL }}
+            TF__LOG__DJANGO_LEVEL=${{ secrets.TF__LOG__DJANGO_LEVEL }}
+            TF__POSTGRES__DB=${{ secrets.TF__POSTGRES__DB }}
+            TF__POSTGRES__USER=${{ secrets.TF__POSTGRES__USER }}
+            TF__POSTGRES__PASSWORD=${{ secrets.TF__POSTGRES__PASSWORD }}
+            TF__POSTGRES__PORT=${{ secrets.TF__POSTGRES__PORT }}
+            TF__REDIS__PASSWORD=${{ secrets.TF__REDIS__PASSWORD }}
+            TF__REDIS__PORT=${{ secrets.TF__REDIS__PORT }}
+            TF__REDIS__DEFAULT_DB=${{ secrets.TF__REDIS__DEFAULT_DB }}
+            EOF
+      - name: Deploy on VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /etc/team-finder
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
+            docker image prune -af
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: always()
+    steps:
+      - name: Notify success
+        if: needs.deploy.result == 'success'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            TeamFinder deployed successfully!
+            Commit: ${{ github.event.head_commit.message }}
+            Author: ${{ github.event.head_commit.author.name }}
+      - name: Notify failure
+        if: needs.deploy.result == 'failure'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Deploy failed!
+            Commit: ${{ github.event.head_commit.message }}
+            Info: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
