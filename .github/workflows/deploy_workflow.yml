@@ -93,7 +93,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           port: ${{ secrets.PORT }}
           source: "docker-compose.prod.yml,nginx/nginx.prod.conf"
-          target: "/home/alexey/etc/team-finder"
+          target: "/opt/team-finder"
 
       - name: Create .env on VPS
         uses: appleboy/ssh-action@master
@@ -104,7 +104,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           port: ${{ secrets.PORT }}
           script: |
-            cat > /home/alexey/etc/team-finder/.env  << 'EOF'
+            cat > /opt/team-finder/.env  << 'EOF'
             TF__DJANGO__SECRET_KEY="${{ secrets.TF__DJANGO__SECRET_KEY }}"
             TF__DJANGO__DOMAIN=${{ secrets.TF__DJANGO__DOMAIN }}
             TF__DJANGO__HEALTHCHECK_PATH=${{ secrets.TF__DJANGO__HEALTHCHECK_PATH }}
@@ -130,7 +130,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /home/alexey/etc/team-finder
+            cd /opt/team-finder
             docker compose -f docker-compose.prod.yml pull
             docker compose -f docker-compose.prod.yml up -d --remove-orphans
             docker image prune -af
