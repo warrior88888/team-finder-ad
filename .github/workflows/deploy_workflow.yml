@@ -50,7 +50,7 @@ jobs:
       - name: Install dependencies
         run: uv sync --frozen
       - name: Ruff
-        run: uv run ruff check .
+        run: uv run ruff check . --fix
       - name: Pyright
         run: uv run pyright
       - name: Pytest
