@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Create .env for tests
         run: |
-          cat > .env << 'EOF'
+          cat > /home/alexey/etc/team-finder/.env << 'EOF'
           TF__DJANGO__SECRET_KEY=test-secret-key123@
           TF__DJANGO__DOMAIN=localhost
           TF__DJANGO__HEALTHCHECK_PATH=ht/
@@ -93,7 +93,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           port: ${{ secrets.PORT }}
           source: "docker-compose.prod.yml,nginx/nginx.prod.conf"
-          target: "/etc/team-finder"
+          target: "/home/alexey/etc/team-finder"
 
       - name: Create .env on VPS
         uses: appleboy/ssh-action@master
@@ -130,7 +130,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /etc/team-finder
+            cd /home/alexey/etc/team-finder
             docker compose -f docker-compose.prod.yml pull
             docker compose -f docker-compose.prod.yml up -d --remove-orphans
             docker image prune -af
