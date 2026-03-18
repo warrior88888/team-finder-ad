@@ -4,9 +4,9 @@ from config.base import PortInt
 
 
 class RedisConfig(BaseModel):
-    host: str = "127.0.0.1"
+    host: str = "localhost"
     port: PortInt = 6379
-    password: SecretStr
+    password: SecretStr = SecretStr("no")
     default_db: int = 0
 
     def build_dsn(self, db_index: int) -> str:
