@@ -20,8 +20,15 @@ def test_generate_avatar_returns_content_file(avatar_service):
     result = avatar_service.generate_avatar(label="test@mail.com")
     assert isinstance(result, ContentFile)
     file_name = cast(str, result.name)
-    assert file_name.startswith(AvatarService.gen_prefix)
-    assert "test_avatar" in file_name
+    assert file_name.startswith(avatar_service.gen_prefix)
+    assert "test" in file_name
+    assert "_avatar." in file_name
+
+
+def test_generate_avatar_filename_is_unique(avatar_service):
+    result1 = avatar_service.generate_avatar(label="test@mail.com")
+    result2 = avatar_service.generate_avatar(label="test@mail.com")
+    assert result1.name != result2.name
 
 
 def test_check_size_within_limit(avatar_service):
