@@ -105,7 +105,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cat > /home/alexey/etc/team-finder/.env  << 'EOF'
-            TF__DJANGO__SECRET_KEY=${{ secrets.TF__DJANGO__SECRET_KEY }}
+            TF__DJANGO__SECRET_KEY="${{ secrets.TF__DJANGO__SECRET_KEY }}"
             TF__DJANGO__DOMAIN=${{ secrets.TF__DJANGO__DOMAIN }}
             TF__DJANGO__HEALTHCHECK_PATH=${{ secrets.TF__DJANGO__HEALTHCHECK_PATH }}
             TF__DJANGO__ADMIN_PATH=${{ secrets.TF__DJANGO__ADMIN_PATH }}
@@ -115,9 +115,9 @@ jobs:
             TF__LOG__DJANGO_LEVEL=${{ secrets.TF__LOG__DJANGO_LEVEL }}
             TF__POSTGRES__DB=${{ secrets.TF__POSTGRES__DB }}
             TF__POSTGRES__USER=${{ secrets.TF__POSTGRES__USER }}
-            TF__POSTGRES__PASSWORD=${{ secrets.TF__POSTGRES__PASSWORD }}
+            TF__POSTGRES__PASSWORD="${{ secrets.TF__POSTGRES__PASSWORD }}"
             TF__POSTGRES__PORT=${{ secrets.TF__POSTGRES__PORT }}
-            TF__REDIS__PASSWORD=${{ secrets.TF__REDIS__PASSWORD }}
+            TF__REDIS__PASSWORD="${{ secrets.TF__REDIS__PASSWORD }}"
             TF__REDIS__PORT=${{ secrets.TF__REDIS__PORT }}
             TF__REDIS__DEFAULT_DB=${{ secrets.TF__REDIS__DEFAULT_DB }}
             EOF
