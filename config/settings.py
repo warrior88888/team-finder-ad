@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     django: DjangoConfig
     log: LoggingConfig = LoggingConfig()
     postgres: PostgresConfig
-    redis: RedisConfig
+    redis: RedisConfig = RedisConfig()
     task: TaskConfig = TaskConfig()
 
 
