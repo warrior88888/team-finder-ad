@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Create .env for tests
         run: |
-          cat > /home/alexey/etc/team-finder/.env << 'EOF'
+          cat > .env << 'EOF'
           TF__DJANGO__SECRET_KEY=test-secret-key123@
           TF__DJANGO__DOMAIN=localhost
           TF__DJANGO__HEALTHCHECK_PATH=ht/
