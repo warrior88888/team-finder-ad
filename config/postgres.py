@@ -4,7 +4,7 @@ from config.base import PortInt
 
 
 class PostgresConfig(BaseModel):
-    db: str = "team_finder"
+    db: str = "teamfinder"
     host: str = "localhost"
     port: PortInt = 5432
     user: str = "postgres"
