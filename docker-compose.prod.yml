@@ -75,6 +75,7 @@ services:
       TF__DJANGO__DEBUG: "False"
       TF__POSTGRES__HOST: "postgres"
       TF__REDIS__HOST: "redis"
+      TF__TASK__VERSION: 1
     networks:
       - backend_network
       - redis_network
