@@ -3,7 +3,6 @@ from django.contrib.admin.sites import AdminSite
 from django.contrib.auth import get_user_model
 
 from core.services.activity_tracking import user_tracker
-from users.admin.actions import block_users, unblock_users
 from users.admin.main import UserAdmin
 
 pytestmark = pytest.mark.django_db
