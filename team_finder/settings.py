@@ -1,4 +1,3 @@
-import logging
 from pathlib import Path
 
 from config import app_config
