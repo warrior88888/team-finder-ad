@@ -1,6 +1,7 @@
 import io
 import logging
 import random
+import uuid
 from pathlib import Path
 from typing import Literal
 
@@ -90,7 +91,10 @@ class AvatarService:
                     mode,
                 )
                 return self._set_fallback_avatar(label)
-        filename = f"{self.gen_prefix}{label.split('@')[0]}_avatar.{mode.lower()}"
+        unique_id = uuid.uuid4().hex[:8]
+        filename = (
+            f"{self.gen_prefix}{label.split('@')[0]}_{unique_id}_avatar.{mode.lower()}"
+        )
         logger.info(
             "Avatar generated successfully for user: %s, filename: %s", label, filename
         )
