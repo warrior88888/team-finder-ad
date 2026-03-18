@@ -19,27 +19,6 @@ jobs:
         ports:
           - 6379:6379
     steps:
-      - uses: actions/checkout@v4
-      - name: Create .env for tests
-        run: |
-          cat > .env << 'EOF'
-          TF__DJANGO__SECRET_KEY=test-secret-key123@
-          TF__DJANGO__DOMAIN=localhost
-          TF__DJANGO__HEALTHCHECK_PATH=ht/
-          TF__DJANGO__ADMIN_PATH=admin/
-          TF__LOG__FORMAT=[%(asctime)s.%(msecs)03d] %(module)10s:%(lineno)-3d %(levelname)-7s - %(message)s
-          TF__LOG__LEVEL=INFO
-          TF__LOG__DB_LEVEL=WARNING
-          TF__LOG__DJANGO_LEVEL=INFO
-          TF__POSTGRES__DB=teamfinder
-          TF__POSTGRES__USER=postgres
-          TF__POSTGRES__PASSWORD=postgrs
-          TF__POSTGRES__PORT=5432
-          TF__REDIS__PASSWORD=no
-          TF__REDIS__PORT=6379
-          TF__REDIS__DEFAULT_DB=0
-          TF__TASK__VERSION=1
-          EOF
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -61,11 +40,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: tests
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Login to DockerHub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
@@ -82,8 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_and_push
     steps:
-      - uses: actions/checkout@v4
-
+      - uses: actions/checkout@v5
       - name: Copy configs to VPS
         uses: appleboy/scp-action@master
         with:
