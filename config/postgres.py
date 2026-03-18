@@ -12,10 +12,6 @@ class PostgresConfig(BaseModel):
 
     @property
     def dsn(self) -> str:
-        """Собирает стандартную строку подключения для PostgresSQL.
-        Формат: postgresql://user:password@host:port/db
-        """
-
         return str(
             PostgresDsn.build(
                 scheme="postgresql",
@@ -29,7 +25,6 @@ class PostgresConfig(BaseModel):
 
     @property
     def django_db_dict(self) -> dict[str, str | int]:
-        """Возвращает словарь в формате, который ожидает Django в settings.py"""
         return {
             "ENGINE": "django.db.backends.postgresql",
             "NAME": self.db,
