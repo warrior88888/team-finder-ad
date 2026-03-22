@@ -104,6 +104,7 @@ services:
       - static_volume:/collected_static:ro
       - media_volume:/media:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/log/nginx:/var/log/nginx
     depends_on:
       django_app:
         condition: service_healthy
