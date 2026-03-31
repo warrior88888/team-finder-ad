@@ -85,7 +85,8 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           port: ${{ secrets.PORT }}
           script: |
-            cat > /opt/team-finder/.env  << 'EOF'
+            cd /opt/team-finder
+            cat > .env  << 'EOF'
             TF__DJANGO__SECRET_KEY="${{ secrets.TF__DJANGO__SECRET_KEY }}"
             TF__DJANGO__DOMAIN=${{ secrets.TF__DJANGO__DOMAIN }}
             TF__DJANGO__HEALTHCHECK_PATH=${{ secrets.TF__DJANGO__HEALTHCHECK_PATH }}
@@ -102,7 +103,6 @@ jobs:
             TF__REDIS__PORT=${{ secrets.TF__REDIS__PORT }}
             TF__REDIS__DEFAULT_DB=${{ secrets.TF__REDIS__DEFAULT_DB }}
             EOF
-            cd /opt/team-finder
             docker compose -f docker-compose.prod.yml pull
             docker compose -f docker-compose.prod.yml up -d --remove-orphans
             docker image prune -af
