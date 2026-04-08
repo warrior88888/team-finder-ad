@@ -4,12 +4,10 @@ services:
     container_name: postgres_container
     ports:
       - "5433:5432"
-    env_file:
-      - .env
     environment:
-      POSTGRES_USER: ${TF__POSTGRES__USER}
-      POSTGRES_PASSWORD: ${TF__POSTGRES__PASSWORD}
-      POSTGRES_DB: ${TF__POSTGRES__DB}
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "teamfinder"
     volumes:
       - pg_data:/var/lib/postgresql/data
     stop_grace_period: 30s
@@ -26,8 +24,6 @@ services:
     container_name: redis_container
     ports:
       - "6380:6379"
-    env_file:
-      - .env
     volumes:
       - redis_data:/data
     healthcheck:
@@ -40,17 +36,11 @@ services:
   django_app:
     build: .
     container_name: django_app
-    env_file:
-      - .env
     environment:
-      TF__DJANGO__DEBUG: "False"
-      TF__DJANGO__DOMAIN: "localhost"
-      TF__POSTGRES__PORT: "5432"
+      TF__DJANGO__SECRET_KEY: "django-secret-key"
       TF__POSTGRES__HOST: "postgres"
-      TF__REDIS__PASSWORD: "no"
+      TF__POSTGRES__PASSWORD: "postgres"
       TF__REDIS__HOST: "redis"
-      TF__REDIS__PORT: "6379"
-      TF__TASK__VERSION: 1
     volumes:
       - static_volume:/app/collected_static/
       - media_volume:/app/media/
