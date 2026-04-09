@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from http import HTTPStatus
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
@@ -50,6 +51,6 @@ def complete_project(request: UserRequest, pk: int):
         )
         return JsonResponse({"status": "ok", "project_status": project_status})
     except PermissionDenied as exception:
-        return JsonResponse({"error": str(exception)}, status=403)
+        return JsonResponse({"error": str(exception)}, status=HTTPStatus.FORBIDDEN)
     except ValueError as exception:
-        return JsonResponse({"error": str(exception)}, status=400)
+        return JsonResponse({"error": str(exception)}, status=HTTPStatus.BAD_REQUEST)
