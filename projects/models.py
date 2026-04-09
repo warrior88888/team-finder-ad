@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.core.validators import MaxLengthValidator
 from django.db import models
 
 
@@ -16,8 +15,6 @@ class Project(models.Model):
         blank=True,
         null=True,
         verbose_name="Описание проекта",
-        max_length=2000,
-        validators=[MaxLengthValidator(2000)],
     )
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
