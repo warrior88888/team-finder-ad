@@ -1,29 +1,13 @@
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser
 from django.core.files.uploadedfile import UploadedFile
 from django.core.validators import MaxLengthValidator
 from django.db import models
 
 from core.services.avatar import AvatarService
 
+from .managers import UserManager
+
 _avatar_service = AvatarService()
-
-
-class UserManager(BaseUserManager["User"]):
-    """Custom manager using email as the unique identifier instead of username."""
-
-    def create_user(self, email, password=None, **extra_fields):
-        if not email:
-            raise ValueError("Email обязателен")
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, email, password=None, **extra_fields):
-        extra_fields.setdefault("is_staff", True)
-        extra_fields.setdefault("is_superuser", True)
-        return self.create_user(email, password, **extra_fields)
 
 
 class User(AbstractUser):
@@ -75,7 +59,7 @@ class User(AbstractUser):
         verbose_name="Избранные проекты",
     )
 
-    objects: UserManager = UserManager()
+    objects: UserManager
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["name", "surname"]
