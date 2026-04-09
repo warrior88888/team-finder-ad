@@ -44,7 +44,6 @@ services:
     volumes:
       - static_volume:/app/collected_static/
       - media_volume:/app/media/
-      - /var/log/django:/var/log/django
     depends_on:
       postgres:
         condition: service_healthy
