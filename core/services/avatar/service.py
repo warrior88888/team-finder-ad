@@ -10,6 +10,8 @@ from django.core.files.base import ContentFile
 from PIL import Image, ImageDraw, ImageFont
 from pydantic import PositiveInt
 
+from constants.avatar import AvatarColors, AvatarSettings
+
 from .schemas import AvatarConfig
 
 logger = logging.getLogger(__name__)
@@ -61,13 +63,13 @@ class AvatarService:
         draw = ImageDraw.Draw(image)
         font = self._get_font()
         letter = label[0].upper()
-        bbox = draw.textbbox((0, 0), letter, font=font)
+        bbox = draw.textbbox(AvatarSettings.TEXT_ANCHOR_CORDS, letter, font=font)
         text_width = bbox[2] - bbox[0]
         text_height = bbox[3] - bbox[1]
         x = (size[0] - text_width) / 2
-        vertical_offset = 28  # empirically tuned for the current font size (130px)
+        vertical_offset = AvatarSettings.VERTICAL_OFFSET
         y = (size[1] / 2) - (text_height / 2) - vertical_offset
-        draw.text((x, y), letter, fill=(255, 255, 255), font=font)
+        draw.text((x, y), letter, fill=AvatarColors.TEXT, font=font)
         buffer = io.BytesIO()
         image.save(buffer, format=mode, quality=quality)
         if buffer.tell() > self.config.max_size_bytes:

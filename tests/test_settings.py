@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from config import app_config
+from constants.avatar import AvatarColors, AvatarSettings
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -120,7 +121,7 @@ AVATAR_CONFIG = {
     / "fonts"
     / "Neue_Haas_Grotesk_Display_Pro_75_Bold.otf",
     "default_avatar_path": BASE_DIR / "static" / "images" / "default-avatar.png",
-    "colors": [(0, 0, 0)],
+    "colors": [AvatarColors.TEST],
 }
 
 # Login

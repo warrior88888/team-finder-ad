@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from config import app_config
+from constants.avatar import AvatarColors
 
 # Core
 
@@ -246,14 +247,7 @@ AVATAR_CONFIG = {
     / "fonts"
     / "Neue_Haas_Grotesk_Display_Pro_75_Bold.otf",
     "default_avatar_path": BASE_DIR / "static" / "images" / "default-avatar.png",
-    "colors": [
-        (173, 216, 230),
-        (255, 222, 173),
-        (211, 211, 211),
-        (144, 238, 144),
-        (255, 182, 193),
-        (221, 160, 221),
-    ],
+    "colors": AvatarColors.BACKGROUNDS,
 }
 
 # Jazzmin AdminPanel
