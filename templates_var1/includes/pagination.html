@@ -9,15 +9,14 @@
             <a class="pagination-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
         </li>
         {% endif %}
-
         {% for i in page_obj.paginator.page_range %}
-            <li class="pagination-item">
-                {% if page_obj.number == i %}
-                    <span class="pagination-link active">{{ i }}</span>
-                {% else %}
-                    <a class="pagination-link" href="?page={{ i }}">{{ i }}</a>
-                {% endif %}
-            </li>
+        <li class="pagination-item">
+            {% if page_obj.number == i %}
+            <span class="pagination-link active">{{ i }}</span>
+            {% else %}
+            <a class="pagination-link" href="?page={{ i }}">{{ i }}</a>
+            {% endif %}
+        </li>
         {% endfor %}
 
         {% if page_obj.has_next %}

@@ -12,21 +12,21 @@ urlpatterns = [
         name="create_project",
     ),
     path("favorites/", views.FavoritesListView.as_view(), name="favorites"),
-    path("<int:pk>/", views.ProjectDetailView.as_view(), name="project_detail"),
+    path("<int:project_id>/", views.ProjectDetailView.as_view(), name="project_detail"),
     path(
-        "<int:pk>/edit/",
+        "<int:project_id>/edit/",
         views.ProjectUpdateView.as_view(),
         name="edit_project",
     ),
     path(
-        "<int:pk>/toggle-favorite/",
+        "<int:project_id>/toggle-favorite/",
         views.toggle_favorite,
         name="toggle_favorite",
     ),
     path(
-        "<int:pk>/toggle-participate/",
+        "<int:project_id>/toggle-participate/",
         views.toggle_participate,
         name="toggle_participate",
     ),
-    path("<int:pk>/complete/", views.complete_project, name="complete_project"),
+    path("<int:project_id>/complete/", views.complete_project, name="complete_project"),
 ]

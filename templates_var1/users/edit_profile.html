@@ -17,27 +17,28 @@
         <div class="avatar-upload">
             <div class="avatar-preview">
                 {% if user.avatar %}
-                    <img
+                <img
                         id="avatar-preview"
                         src="{{ user.avatar.url }}"
                         data-original="{{ user.avatar.url }}"
                         alt="Аватар"
-                    >
+                >
                 {% else %}
-                    <img
+                <img
                         id="avatar-preview"
                         src="{% static 'images/default-avatar.png' %}"
                         data-original="{% static 'images/default-avatar.png' %}"
                         alt="Аватар по умолчанию"
-                    >
+                >
                 {% endif %}
                 <div class="overlay">
                     <button type="button" onclick="document.getElementById('id_avatar').click()">Заменить</button>
                     <button
-                        type="button"
-                        id="clear-avatar-btn"
-                        data-reset-url="{% url 'users:reset_avatar' %}"
-                    >Убрать</button>
+                            type="button"
+                            id="clear-avatar-btn"
+                            data-reset-url="{% url 'users:reset_avatar' %}"
+                    >Убрать
+                    </button>
                 </div>
             </div>
             {{ form.avatar }}
@@ -73,18 +74,21 @@
         {% if form.errors %}
         <div class="form-errors">
             {% for field, errors in form.errors.items %}
-                {% for error in errors %}
-                    <p>{{ error }}</p>
-                {% endfor %}
+            {% for error in errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
             {% endfor %}
         </div>
         {% endif %}
 
         <div class="form-actions">
-            <a href="{% url 'users:user_detail' request.user.id %}" class="cancel-button">Отмена</a>
+            <a href="{{ request.user.get_absolute_url }}" class="cancel-button">Отмена</a>
             <button type="submit" class="save-button">Сохранить</button>
         </div>
     </form>
 </div>
-{% include 'includes/avatar_preview.js' %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/avatar.js' %}"></script>
 {% endblock %}

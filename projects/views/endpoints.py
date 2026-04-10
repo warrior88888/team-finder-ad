@@ -18,16 +18,16 @@ if TYPE_CHECKING:
 
 @login_required
 @require_POST
-def toggle_favorite(request: UserRequest, pk: int):
-    project = get_object_or_404(Project, pk=pk)
+def toggle_favorite(request: UserRequest, project_id: int):
+    project = get_object_or_404(Project, pk=project_id)
     favorited = services.toggle_project_favorite(project=project, user=request.user)
     return JsonResponse({"status": "ok", "favorited": favorited})
 
 
 @login_required
 @require_POST
-def toggle_participate(request: UserRequest, pk: int):
-    project = get_object_or_404(Project, pk=pk)
+def toggle_participate(request: UserRequest, project_id: int):
+    project = get_object_or_404(Project, pk=project_id)
     participating, participants_count = services.toggle_project_participate(
         project=project, user=request.user
     )
@@ -42,9 +42,9 @@ def toggle_participate(request: UserRequest, pk: int):
 
 @login_required
 @require_POST
-def complete_project(request: UserRequest, pk: int):
+def complete_project(request: UserRequest, project_id: int):
     """Returns 403 on PermissionDenied, 400 on ValueError."""
-    project = get_object_or_404(Project, pk=pk)
+    project = get_object_or_404(Project, pk=project_id)
     try:
         project_status = services.owner_complete_project(
             project=project, user=request.user

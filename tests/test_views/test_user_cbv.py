@@ -34,19 +34,17 @@ User = get_user_model()
 
 
 def test_user_detail_returns_200_for_anonymous(client, user):
-    url = reverse("users:user_detail", kwargs={"pk": user.pk})
-    response = client.get(url)
+    response = client.get(user.get_absolute_url())
     assert response.status_code == 200
 
 
 def test_user_detail_returns_200(user, auth_client):
-    url = reverse("users:user_detail", kwargs={"pk": user.pk})
-    response = auth_client.get(url)
+    response = auth_client.get(user.get_absolute_url())
     assert response.status_code == 200
 
 
 def test_user_detail_returns_404_for_missing_user(auth_client):
-    url = reverse("users:user_detail", kwargs={"pk": 99999})
+    url = reverse("users:user_detail", kwargs={"user_id": 99999})
     response = auth_client.get(url)
     assert response.status_code == 404
 
@@ -130,7 +128,7 @@ def test_edit_view_valid_post_returns_302(auth_client, user_profile_form_data):
     url = reverse("users:edit_profile")
     response = auth_client.post(url, data=user_profile_form_data)
     user = cast("UserModel", User.objects.last())
-    expected_url = reverse("users:user_detail", kwargs={"pk": user.pk})
+    expected_url = reverse("users:user_detail", kwargs={"user_id": user.pk})
     assertRedirects(response, expected_url)
 
 
@@ -177,5 +175,5 @@ def test_password_change_valid_post_returns_302(
             "new_password2": fake_password,
         },
     )
-    expected_url = reverse("users:user_detail", kwargs={"pk": user.pk})
+    expected_url = reverse("users:user_detail", kwargs={"user_id": user.pk})
     assertRedirects(response, expected_url)

@@ -10,6 +10,7 @@ from django.views.generic import (
     UpdateView,
 )
 
+from constants import PageSize
 from core.services.throttling import OverLimitError
 from users import services
 from users.forms import UserEditForm, UserLoginForm, UserRegisterForm
@@ -23,13 +24,13 @@ class UserDetailView(DetailView, UserMixin):
     context_object_name = "user"
 
     def get_object(self, queryset=None):
-        return self.selector.user_details(user_pk=self.kwargs.get("pk"))
+        return self.selector.user_details(user_pk=self.kwargs["user_id"])
 
 
 class UserListView(ListView, UserMixin):
     template_name = "users/participants.html"
     context_object_name = "participants"
-    paginate_by = 12
+    paginate_by = PageSize.USERS
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
@@ -66,8 +67,8 @@ class UserLoginView(FormView):
         try:
             services.login_user(
                 request=self.request,
-                email=form.cleaned_data.get("email"),
-                password=form.cleaned_data.get("password"),
+                email=form.cleaned_data["email"],
+                password=form.cleaned_data["password"],
             )
             return redirect("projects:projects_list")
         except ValidationError:
@@ -116,4 +117,4 @@ class UserPasswordChangeView(
 
     def form_valid(self, form):
         services.change_password(request=self.request, form=form)
-        return redirect("users:user_detail", pk=self.request.user.pk)
+        return redirect("users:user_detail", user_id=self.request.user.pk)

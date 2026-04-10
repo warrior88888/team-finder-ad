@@ -12,12 +12,13 @@
 <div class="project-container">
     <div class="project-card">
         <div class="project-card-header">
-            <a href="{% url 'users:user_detail' project.owner.id %}">
+            <a href="{{ project.owner.get_absolute_url }}">
                 <div class="project-card-header-left">
                     {% if project.owner.avatar %}
-                        <img src="{{ project.owner.avatar.url }}" alt="Аватар автора" class="project-author-avatar">
+                    <img src="{{ project.owner.avatar.url }}" alt="Аватар автора" class="project-author-avatar">
                     {% else %}
-                        <img src="{% static 'images/default-avatar.png' %}" alt="Аватар по умолчанию" class="project-author-avatar">
+                    <img src="{% static 'images/default-avatar.png' %}" alt="Аватар по умолчанию"
+                         class="project-author-avatar">
                     {% endif %}
                     <div class="project-meta">
                         <span class="project-author">{{ project.owner.name }} {{ project.owner.surname }}</span>
@@ -39,74 +40,76 @@
         </div>
 
         <div class="project-card-body">
-                <h2 class="project-title">{{ project.name }}</h2>
-                <p class="project-description">{{ project.description }}</p>
+            <h2 class="project-title">{{ project.name }}</h2>
+            <p class="project-description">{{ project.description }}</p>
 
-                {% if project.github_url %}
-                <p class="project-link">
-                    {% include 'includes/svg/github.html' %}
-                    <a href="{{ project.github_url }}" target="_blank">Репозиторий на GitHub</a>
-                </p>
-                {% endif %}
+            {% if project.github_url %}
+            <p class="project-link">
+                {% include 'includes/svg/github.html' %}
+                <a href="{{ project.github_url }}" target="_blank">Репозиторий на GitHub</a>
+            </p>
+            {% endif %}
         </div>
         <div class="project-actions">
             <a href="#"
                class="black-button black-button-share share-button"
-               data-url="{% url 'projects:project_detail' project.id %}">
+               data-url="{% url 'projects:project_detail' project_id=project.pk %}">
                 {% include 'includes/svg/share.html' %}
             </a>
-            {% if user.id == project.owner.id %}
-                <a href="{% url 'projects:edit_project' project.id %}" class="black-button">
-                    {% include 'includes/svg/pen.html' %}
-                    Редактировать
-                </a>
-                {% if project.status == "open" %}
-                    <button class="black-button" id="complete-project-btn" data-id="{{ project.id }}">
-                        Завершить проект
-                    </button>
-                {% endif %}
+            {% if user.pk == project.owner.pk %}
+            <a href="{% url 'projects:edit_project' project_id=project.pk %}" class="black-button">
+                {% include 'includes/svg/pen.html' %}
+                Редактировать
+            </a>
+            {% if project.status == "open" %}
+            <button class="black-button" id="complete-project-btn" data-id="{{ project.pk }}">
+                Завершить проект
+            </button>
+            {% endif %}
             {% else %}
-                {% if user.is_authenticated %}
-                    <button id="participate-btn" class="black-button"
-                            data-project="{{ project.id }}"
-                            data-user-id="{{ request.user.id }}"
-                            data-user-name="{{ request.user.name }} {{ request.user.surname }}"
-                            data-user-avatar="{% if request.user.avatar %}{{ request.user.avatar.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}"
-                    >
-                        {% if request.user in project.participants.all %}
-                            Отказаться от участия
-                        {% else %}
-                            Участвовать
-                        {% endif %}
-                    </button>
+            {% if user.is_authenticated %}
+            <button id="participate-btn" class="black-button"
+                    data-project="{{ project.pk }}"
+                    data-user-id="{{ request.user.pk }}"
+                    data-user-name="{{ request.user.name }} {{ request.user.surname }}"
+                    data-user-avatar="{% if request.user.avatar %}{{ request.user.avatar.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}"
+            >
+                {% if request.user in project.participants.all %}
+                Отказаться от участия
+                {% else %}
+                Участвовать
                 {% endif %}
+            </button>
+            {% endif %}
             {% endif %}
         </div>
 
     </div>
 
     <div class="project-participants-card">
-    <h3>Участники проекта (<span id="participants-count" style="display:inline">{{ project.participants_count }}</span>)</h3>
-    <div id="participants-list" class="participants-list">
-        {% for member in project.participants.all %}
-        <a href="{% url 'users:user_detail' member.id %}" id="participant-{{ member.id }}">
-            <div class="participant-item">
-                {% if member.avatar %}
+        <h3>Участники проекта (<span id="participants-count"
+                                     style="display:inline">{{ project.participants_count }}</span>)</h3>
+        <div id="participants-list" class="participants-list">
+            {% for member in project.participants.all %}
+            <a href="{{ member.get_absolute_url }}" id="participant-{{ member.pk }}">
+                <div class="participant-item">
+                    {% if member.avatar %}
                     <img src="{{ member.avatar.url }}" alt="Аватар" class="participant-avatar">
-                {% else %}
-                    <img src="{% static 'images/default-avatar.png' %}" alt="Аватар по умолчанию" class="participant-avatar">
-                {% endif %}
-                <div class="participant-info">
-                    <span class="participant-name">{{ member.name }} {{ member.surname }}</span>
-                    <span class="participant-role">
-                        {% if member.id == project.owner.id %}Автор проекта{% else %}Участник{% endif %}
+                    {% else %}
+                    <img src="{% static 'images/default-avatar.png' %}" alt="Аватар по умолчанию"
+                         class="participant-avatar">
+                    {% endif %}
+                    <div class="participant-info">
+                        <span class="participant-name">{{ member.name }} {{ member.surname }}</span>
+                        <span class="participant-role">
+                        {% if member.pk == project.owner.pk %}Автор проекта{% else %}Участник{% endif %}
                     </span>
+                    </div>
                 </div>
-            </div>
-        </a>
-        {% empty %}
-        <p id="no-participants">Пока нет участников</p>
-        {% endfor %}
+            </a>
+            {% empty %}
+            <p id="no-participants">Пока нет участников</p>
+            {% endfor %}
         </div>
     </div>
 </div>

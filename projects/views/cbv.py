@@ -50,9 +50,10 @@ class ProjectCreateView(
 class ProjectDetailView(DetailView, ProjectMixin):
     template_name = "projects/project-details.html"
     context_object_name = "project"
+    pk_url_kwarg = "project_id"
 
     def get_object(self, queryset=None) -> Project:
-        pk: int = self.kwargs.get("pk")
+        pk: int = self.kwargs["project_id"]
         return self.selector.project_detail(project_pk=pk, with_participants=True)
 
 
@@ -66,7 +67,7 @@ class ProjectUpdateView(
 ):
     form_class = ProjectForm
     template_name = "projects/create-project.html"
-    pk_url_kwarg = "pk"
+    pk_url_kwarg = "project_id"
     is_edit = True
     _cached_object: Project | None = None
 
@@ -75,7 +76,7 @@ class ProjectUpdateView(
         # between OwnerRequiredMixin and form render
         if self._cached_object is None:
             self._cached_object = self.selector.project_detail(
-                project_pk=self.kwargs["pk"]
+                project_pk=self.kwargs["project_id"]
             )
         return self._cached_object
 
