@@ -80,8 +80,12 @@ def change_password(*, request: UserRequest, form: PasswordChangeForm) -> UserMo
 
 @transaction.atomic
 def reset_avatar(*, request: UserRequest) -> str:
-    """Deletes current avatar file, clears the field,
-    and returns the new generated avatar URL."""
+    """Delete the current avatar and regenerate it from the user's label.
+
+    Removes the existing avatar file from storage, clears the field,
+    and triggers auto-generation via the save() hook. Returns the URL
+    of the newly generated avatar.
+    """
     user = request.user
     old_avatar = user.avatar.name
     avatar = user.avatar
