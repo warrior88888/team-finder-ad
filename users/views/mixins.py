@@ -20,4 +20,4 @@ class UserSuccessUrlMixin:
     request: UserRequest
 
     def get_success_url(self) -> str:
-        return reverse("users:user_detail", kwargs={"pk": self.request.user.pk})
+        return self.request.user.get_absolute_url()

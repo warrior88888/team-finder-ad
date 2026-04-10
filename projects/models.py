@@ -1,14 +1,17 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
+
+from constants.projects import ProjectFieldLength, ProjectStatus
 
 
 class Project(models.Model):
     class Status(models.TextChoices):
-        OPEN = "open", "Open"
-        CLOSED = "closed", "Closed"
+        OPEN = ProjectStatus.OPEN, "Open"
+        CLOSED = ProjectStatus.CLOSED, "Closed"
 
     name = models.CharField(
-        max_length=200,
+        max_length=ProjectFieldLength.NAME,
         verbose_name="Название проекта",
     )
     description = models.TextField(
@@ -32,7 +35,7 @@ class Project(models.Model):
         verbose_name="Ссылка на Github",
     )
     status = models.CharField(
-        max_length=6,
+        max_length=max(map(len, Status.values)),
         choices=Status,
         default=Status.OPEN,
         verbose_name="Статус проекта",
@@ -51,3 +54,6 @@ class Project(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("projects:project_detail", kwargs={"project_id": self.pk})

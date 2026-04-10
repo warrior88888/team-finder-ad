@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import ListView
 
+from constants import PageSize
 from projects.models import Project
 from projects.selectors import ProjectSelector
 
@@ -28,11 +29,11 @@ class ProjectSuccessUrlMixin:
     object: Project
 
     def get_success_url(self) -> str:
-        return reverse("projects:project_detail", kwargs={"pk": self.object.pk})
+        return self.object.get_absolute_url()
 
 
 class PaginateMixin(ListView, ProjectMixin):
-    paginate_by = 12
+    paginate_by = PageSize.PROJECTS
     context_object_name = "projects"
 
 
@@ -44,7 +45,7 @@ class OwnerRequiredMixin(UserPassesTestMixin):
     """
 
     request: UserRequest
-    kwargs: dict
+    kwargs: dict[str, int]
 
     def get_object(self, queryset=None) -> Project: ...
 
@@ -53,7 +54,9 @@ class OwnerRequiredMixin(UserPassesTestMixin):
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            return redirect("projects:project_detail", pk=self.kwargs["pk"])
+            return redirect(
+                "projects:project_detail", project_id=self.kwargs["project_id"]
+            )
         return redirect_to_login(
             self.request.get_full_path(),
             login_url=reverse("users:login"),

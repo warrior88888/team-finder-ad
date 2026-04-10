@@ -1,8 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.files.uploadedfile import UploadedFile
-from django.core.validators import MaxLengthValidator
 from django.db import models
+from django.urls import reverse
 
+from constants.users import UserFieldLength
 from core.services.avatar import AvatarService
 
 from .managers import UserManager
@@ -22,11 +23,11 @@ class User(AbstractUser):
         verbose_name="Email",
     )
     name = models.CharField(
-        max_length=124,
+        max_length=UserFieldLength.NAME,
         verbose_name="Имя",
     )
     surname = models.CharField(
-        max_length=124,
+        max_length=UserFieldLength.SURNAME,
         verbose_name="Фамилия",
     )
     avatar = models.ImageField(
@@ -35,7 +36,7 @@ class User(AbstractUser):
     )
     phone = models.CharField(
         unique=True,
-        max_length=12,
+        max_length=UserFieldLength.PHONE,
         verbose_name="Телефон",
         blank=True,
         null=True,
@@ -49,8 +50,6 @@ class User(AbstractUser):
         blank=True,
         null=True,
         verbose_name="О себе",
-        max_length=256,
-        validators=[MaxLengthValidator(256)],
     )
     favorites = models.ManyToManyField(
         "projects.Project",
@@ -59,10 +58,18 @@ class User(AbstractUser):
         verbose_name="Избранные проекты",
     )
 
-    objects: UserManager
-
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["name", "surname"]
+
+    objects: UserManager = UserManager()
+
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
+        ordering = ["-date_joined"]
+
+    def __str__(self):
+        return str(self.email)
 
     def save(self, *args, **kwargs):
         if not self.avatar:
@@ -85,10 +92,5 @@ class User(AbstractUser):
                     pass
         super().save(*args, **kwargs)
 
-    def __str__(self):
-        return str(self.email)
-
-    class Meta:
-        verbose_name = "Пользователь"
-        verbose_name_plural = "Пользователи"
-        ordering = ["-date_joined"]
+    def get_absolute_url(self):
+        return reverse("users:user_detail", kwargs={"user_id": self.pk})
