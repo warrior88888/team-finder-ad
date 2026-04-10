@@ -1,16 +1,13 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
-from core.validators import (
-    check_avatar_size,
-    check_github_url,
-    normalize_and_check_phone,
-)
+from core.forms import GithubUrlFormMixin
+from core.validators import check_avatar_size, normalize_and_check_phone
 
 User = get_user_model()
 
 
-class UserEditForm(forms.ModelForm):
+class UserEditForm(GithubUrlFormMixin, forms.ModelForm):
     """Form for editing user's profile."""
 
     class Meta:
@@ -43,16 +40,6 @@ class UserEditForm(forms.ModelForm):
         if avatar and not check_avatar_size(avatar):
             raise forms.ValidationError("Размер файла не должен превышать 5 МБ")
         return avatar
-
-    def clean_github_url(self) -> str | None:
-        url = self.cleaned_data.get("github_url")
-        is_valid, error = check_github_url(url)
-        if not is_valid:
-            if error == "not_github":
-                raise forms.ValidationError("Ссылка должна вести на GitHub")
-            if error == "no_protocol":
-                raise forms.ValidationError("Ссылка должна начинаться с https://")
-        return url
 
     def clean_phone(self) -> str | None:
         phone = self.cleaned_data.get("phone")

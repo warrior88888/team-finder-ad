@@ -1,14 +1,11 @@
 from django import forms
-from django.contrib.auth import get_user_model
 
-from core.validators import check_github_url
+from core.forms import GithubUrlFormMixin
 
 from .models import Project
 
-User = get_user_model()
 
-
-class ProjectForm(forms.ModelForm):
+class ProjectForm(GithubUrlFormMixin, forms.ModelForm):
     """Form for creating and updating project."""
 
     status = forms.ChoiceField(
@@ -44,13 +41,3 @@ class ProjectForm(forms.ModelForm):
                 }
             ),
         }
-
-    def clean_github_url(self) -> str | None:
-        url = self.cleaned_data.get("github_url")
-        is_valid, error = check_github_url(url)
-        if not is_valid:
-            if error == "not_github":
-                raise forms.ValidationError("Ссылка должна вести на GitHub")
-            if error == "no_protocol":
-                raise forms.ValidationError("Ссылка должна начинаться с https://")
-        return url
