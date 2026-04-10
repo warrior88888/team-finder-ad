@@ -17,8 +17,7 @@
                     {% if project.owner.avatar %}
                     <img src="{{ project.owner.avatar.url }}" alt="Аватар автора" class="project-author-avatar">
                     {% else %}
-                    <img src="{% static 'images/default-avatar.png' %}" alt="Аватар по умолчанию"
-                         class="project-author-avatar">
+                    <img src="{% static 'images/default-avatar.png' %}" alt="Аватар по умолчанию" class="project-author-avatar">
                     {% endif %}
                     <div class="project-meta">
                         <span class="project-author">{{ project.owner.name }} {{ project.owner.surname }}</span>
@@ -87,8 +86,7 @@
     </div>
 
     <div class="project-participants-card">
-        <h3>Участники проекта (<span id="participants-count"
-                                     style="display:inline">{{ project.participants_count }}</span>)</h3>
+        <h3>Участники проекта (<span id="participants-count" style="display:inline">{{ project.participants_count }}</span>)</h3>
         <div id="participants-list" class="participants-list">
             {% for member in project.participants.all %}
             <a href="{{ member.get_absolute_url }}" id="participant-{{ member.pk }}">
@@ -96,8 +94,7 @@
                     {% if member.avatar %}
                     <img src="{{ member.avatar.url }}" alt="Аватар" class="participant-avatar">
                     {% else %}
-                    <img src="{% static 'images/default-avatar.png' %}" alt="Аватар по умолчанию"
-                         class="participant-avatar">
+                    <img src="{% static 'images/default-avatar.png' %}" alt="Аватар по умолчанию" class="participant-avatar">
                     {% endif %}
                     <div class="participant-info">
                         <span class="participant-name">{{ member.name }} {{ member.surname }}</span>
