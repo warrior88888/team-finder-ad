@@ -3,6 +3,7 @@ import re
 from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 
+from constants.services import GITHUB_DOMAIN
 from core.services.avatar import AvatarService
 
 User = get_user_model()
@@ -32,7 +33,7 @@ def check_github_url(url: str | None) -> tuple[bool, str | None]:
     """
     if not url:
         return True, None
-    if "github.com" not in url.lower():
+    if GITHUB_DOMAIN not in url.lower():
         return False, "not_github"
     if not url.startswith("https://"):
         return False, "no_protocol"
@@ -45,7 +46,6 @@ def normalize_and_check_phone(
     """Normalizes phone to +7... format and checks validity and uniqueness."""
     if not re.match(r"^(\+7|8)\d{10}$", phone):
         return phone, False, False
-
     normalized = "+7" + phone[1:] if phone.startswith("8") else phone
     qs = User.objects.filter(phone=normalized)
     if exclude_user_id:
