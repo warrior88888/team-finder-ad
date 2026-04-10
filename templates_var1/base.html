@@ -16,7 +16,7 @@
 <script src="{% static 'js/share.js' %}"></script>
 <script src="{% static 'js/header.js' %}"></script>
 <script src="{% static 'js/skills.js' %}"></script>
-{# Cache-bust to ensure browser loads fresh JS after fixes #}
-<script src="{% static 'js/projects.js' %}?v=2"></script>
+<script src="{% static 'js/projects.js' %}"></script>
+{% block extra_js %}{% endblock %}
 </body>
 </html>
